@@ -84,5 +84,12 @@
         android:text="Submit Complaint"
         android:textSize="18sp"
         android:textStyle="bold"/>
+    <Button
+        android:id="@+id/btnViewDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View All Complaints Dashboard"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
 </LinearLayout>
