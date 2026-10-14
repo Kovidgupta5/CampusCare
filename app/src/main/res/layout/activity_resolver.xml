@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5">
-    <ImageView
+    android:fitsSystemWindows="true"
+    android:background="#F5F5F5"
+    android:padding="16dp">
 
-        android:layout_width="280dp"
-
-        android:layout_height="280dp"
-
-        android:layout_centerInParent="true"
-
-        android:alpha="0.12"
-
-        android:src="@drawable/nmims_logo"
-
-        android:scaleType="centerInside" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Worker Task Portal (Resolver)"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:textColor="@android:color/black"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/nmims_logo1"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Worker Task Portal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewResolver"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

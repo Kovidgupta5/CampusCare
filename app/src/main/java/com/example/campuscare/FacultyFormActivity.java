@@ -22,7 +22,7 @@ public class FacultyFormActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    EditText edtName, edtFacultyLocationDetail, edtPcNumber;
+    EditText edtName, edtFacultyLocationDetail, edtPcNumber, edtFacultyIssueDescription;
     Spinner spinnerFacultyLocation, spinnerStaffItem, spinnerLabItem, spinnerCategory;
     TextView tvStaffItemLabel, tvLabItemLabel, tvCategoryLabel;
     RadioGroup radioGroupSeverity;
@@ -42,6 +42,7 @@ public class FacultyFormActivity extends AppCompatActivity {
         edtName = findViewById(R.id.edtFacultyName);
         edtFacultyLocationDetail = findViewById(R.id.edtFacultyLocationDetail);
         edtPcNumber = findViewById(R.id.edtPcNumber);
+        edtFacultyIssueDescription = findViewById(R.id.edtFacultyIssueDescription);
         spinnerFacultyLocation = findViewById(R.id.spinnerFacultyLocation);
         spinnerStaffItem = findViewById(R.id.spinnerStaffItem);
         spinnerLabItem = findViewById(R.id.spinnerLabItem);
@@ -55,23 +56,20 @@ public class FacultyFormActivity extends AppCompatActivity {
         btnSelectImage = findViewById(R.id.btnSelectImage);
         imgComplaintPreview = findViewById(R.id.imgComplaintPreview);
 
-        // Faculty Locations
         String[] facultyLocations = {"Staff Room", "Lecture Room (LR)", "Lab", "Washroom"};
         ArrayAdapter<String> locAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, facultyLocations);
         spinnerFacultyLocation.setAdapter(locAdapter);
 
-        // Staff Room items
-        String[] staffItems = {"PC", "Chair", "AC", "WIFI", "FAN", "light", "switch"};
+        String[] staffItems = {"PC", "Chair", "AC", "WIFI", "FAN", "light", "switch", "Other"};
         ArrayAdapter<String> staffAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, staffItems);
         spinnerStaffItem.setAdapter(staffAdapter);
 
-        // Lab items
-        String[] labItems = {"PC", "wifi", "AC/Fans", "smartboard", "switch", "chair"};
+        String[] labItems = {"PC", "wifi", "AC/Fans", "smartboard", "switch", "chair", "Other"};
         ArrayAdapter<String> labAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, labItems);
         spinnerLabItem.setAdapter(labAdapter);
 
-        // LR Categories (No Drinking Water)
-        String[] lrCategories = {"Fan / AC", "Light / Switch", "Wi-Fi Network", "Smartboard / Projector"};
+        // LR Categories with "Other" included
+        String[] lrCategories = {"Fan / AC", "Light / Switch", "Wi-Fi Network", "Smartboard / Projector", "Other"};
         ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, lrCategories);
         spinnerCategory.setAdapter(catAdapter);
 
@@ -80,7 +78,6 @@ public class FacultyFormActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLoc = parent.getItemAtPosition(position).toString();
 
-                // Reset visibility defaults
                 tvStaffItemLabel.setVisibility(View.GONE);
                 spinnerStaffItem.setVisibility(View.GONE);
                 tvLabItemLabel.setVisibility(View.GONE);
@@ -88,6 +85,7 @@ public class FacultyFormActivity extends AppCompatActivity {
                 edtPcNumber.setVisibility(View.GONE);
                 tvCategoryLabel.setVisibility(View.GONE);
                 spinnerCategory.setVisibility(View.GONE);
+                edtFacultyIssueDescription.setVisibility(View.GONE);
                 edtFacultyLocationDetail.setVisibility(View.VISIBLE);
 
                 if (selectedLoc.equals("Staff Room")) {
@@ -104,9 +102,28 @@ public class FacultyFormActivity extends AppCompatActivity {
                     edtFacultyLocationDetail.setHint("Enter Lab Location / Number");
                 } else if (selectedLoc.equals("Washroom")) {
                     edtFacultyLocationDetail.setHint("Enter Washroom Location");
+                    edtFacultyIssueDescription.setVisibility(View.VISIBLE);
+                    edtFacultyIssueDescription.setHint("Describe washroom issue...");
                 }
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spinnerStaffItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                if (item.equals("Other")) {
+                    edtFacultyIssueDescription.setVisibility(View.VISIBLE);
+                    edtFacultyIssueDescription.setHint("Specify staff room issue...");
+                } else {
+                    if (!spinnerFacultyLocation.getSelectedItem().toString().equals("Washroom")) {
+                        edtFacultyIssueDescription.setVisibility(View.GONE);
+                    }
+                }
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -117,11 +134,32 @@ public class FacultyFormActivity extends AppCompatActivity {
                 String assetType = parent.getItemAtPosition(position).toString();
                 if (assetType.equals("PC")) {
                     edtPcNumber.setVisibility(View.VISIBLE);
+                    edtFacultyIssueDescription.setVisibility(View.GONE);
+                } else if (assetType.equals("Other")) {
+                    edtPcNumber.setVisibility(View.GONE);
+                    edtFacultyIssueDescription.setVisibility(View.VISIBLE);
+                    edtFacultyIssueDescription.setHint("Specify lab issue...");
                 } else {
                     edtPcNumber.setVisibility(View.GONE);
+                    edtFacultyIssueDescription.setVisibility(View.GONE);
                 }
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String cat = parent.getItemAtPosition(position).toString();
+                if (cat.equals("Other")) {
+                    edtFacultyIssueDescription.setVisibility(View.VISIBLE);
+                    edtFacultyIssueDescription.setHint("Specify LR issue...");
+                } else {
+                    edtFacultyIssueDescription.setVisibility(View.GONE);
+                }
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -136,23 +174,37 @@ public class FacultyFormActivity extends AppCompatActivity {
             String locType = spinnerFacultyLocation.getSelectedItem().toString();
             String locationDetail = edtFacultyLocationDetail.getText().toString().trim();
 
-            // Category is only required/selected for Lecture Room (LR), default to "General Maintenance" for others
-            String category = locType.equals("Lecture Room (LR)") ? spinnerCategory.getSelectedItem().toString() : "General Maintenance";
-
-            String fullLocation = "";
-            if (locType.equals("Staff Room")) {
-                String item = spinnerStaffItem.getSelectedItem().toString();
-                fullLocation = "Staff Room (" + item + ") - " + locationDetail;
-            } else if (locType.equals("Lecture Room (LR)")) {
-                fullLocation = "Lecture Room (LR) - Room " + locationDetail;
+            String category = "General Maintenance";
+            if (locType.equals("Lecture Room (LR)")) {
+                category = spinnerCategory.getSelectedItem().toString();
+                if (category.equals("Other")) {
+                    category = "Other: " + edtFacultyIssueDescription.getText().toString().trim();
+                }
+            } else if (locType.equals("Staff Room")) {
+                category = "Staff Room Item: " + spinnerStaffItem.getSelectedItem().toString();
+                if (spinnerStaffItem.getSelectedItem().toString().equals("Other")) {
+                    category = "Other: " + edtFacultyIssueDescription.getText().toString().trim();
+                }
             } else if (locType.equals("Lab")) {
                 String asset = spinnerLabItem.getSelectedItem().toString();
                 if (asset.equals("PC")) {
-                    String pcNum = edtPcNumber.getText().toString().trim();
-                    fullLocation = "Lab - " + locationDetail + " (PC #" + pcNum + ")";
+                    category = "Lab PC #" + edtPcNumber.getText().toString().trim();
+                } else if (asset.equals("Other")) {
+                    category = "Other: " + edtFacultyIssueDescription.getText().toString().trim();
                 } else {
-                    fullLocation = "Lab - " + locationDetail + " (" + asset + ")";
+                    category = "Lab Asset: " + asset;
                 }
+            } else if (locType.equals("Washroom")) {
+                category = "Washroom Issue: " + edtFacultyIssueDescription.getText().toString().trim();
+            }
+
+            String fullLocation = "";
+            if (locType.equals("Staff Room")) {
+                fullLocation = "Staff Room - " + locationDetail;
+            } else if (locType.equals("Lecture Room (LR)")) {
+                fullLocation = "Lecture Room (LR) - Room " + locationDetail;
+            } else if (locType.equals("Lab")) {
+                fullLocation = "Lab - " + locationDetail;
             } else {
                 fullLocation = "Washroom - " + locationDetail;
             }
@@ -178,6 +230,7 @@ public class FacultyFormActivity extends AppCompatActivity {
                     edtName.setText("");
                     edtFacultyLocationDetail.setText("");
                     edtPcNumber.setText("");
+                    edtFacultyIssueDescription.setText("");
                     imgComplaintPreview.setImageURI(null);
                     imageUriString = "";
                 } else {
@@ -185,8 +238,6 @@ public class FacultyFormActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         btnViewDashboard.setOnClickListener(v -> {
             Intent intent = new Intent(FacultyFormActivity.this, DashboardActivity.class);

@@ -1,182 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:fitsSystemWindows="true"
+    android:background="#F5F5F5"
+    android:padding="16dp">
 
-    <!-- Watermark Logo Background -->
-    <ImageView
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:layout_centerInParent="true"
-        android:alpha="0.12"
-        android:src="@drawable/nmims_logo"
-        android:scaleType="centerInside" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Faculty Academic Portal"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"/>
-
-            <EditText
-                android:id="@+id/edtFacultyName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Faculty Name"
-                android:textSize="18sp"
-                android:layout_marginBottom="15dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Academic Location Type:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"/>
-
-            <Spinner
-                android:id="@+id/spinnerFacultyLocation"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="15dp"/>
-
-            <!-- Staff Room item options -->
-            <TextView
-                android:id="@+id/tvStaffItemLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select Item / Equipment:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone"/>
-
-            <Spinner
-                android:id="@+id/spinnerStaffItem"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="15dp"
-                android:visibility="gone"/>
-
-            <!-- Lab asset options -->
-            <TextView
-                android:id="@+id/tvLabItemLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select Lab Asset Type:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone"/>
-
-            <Spinner
-                android:id="@+id/spinnerLabItem"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="15dp"
-                android:visibility="gone"/>
-
-            <EditText
-                android:id="@+id/edtFacultyLocationDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Location Details / Room Number"
-                android:textSize="16sp"
-                android:layout_marginBottom="15dp"/>
-
-            <EditText
-                android:id="@+id/edtPcNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter PC Number"
-                android:textSize="16sp"
-                android:layout_marginBottom="15dp"
-                android:visibility="gone"/>
-
-            <!-- Category selection (Visible ONLY for Lecture Room LR) -->
-            <TextView
-                android:id="@+id/tvCategoryLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select Category:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone"/>
-
-            <Spinner
-                android:id="@+id/spinnerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="15dp"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Severity Level:"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"/>
-
-            <RadioGroup
-                android:id="@+id/radioGroupSeverity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
-
-                <RadioButton android:id="@+id/rbLow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low" android:layout_marginEnd="16dp"/>
-                <RadioButton android:id="@+id/rbMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium" android:layout_marginEnd="16dp"/>
-                <RadioButton android:id="@+id/rbHigh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High"/>
-            </RadioGroup>
-
-            <Button
-                android:id="@+id/btnSelectImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Attach Issue Photo"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@android:color/darker_gray"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
 
             <ImageView
-                android:id="@+id/imgComplaintPreview"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="15dp"/>
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/nmims_logo1"
+                android:scaleType="centerInside"
+                android:layout_marginEnd="12dp"/>
 
-
-            <Button
-                android:id="@+id/btnSubmitComplaint"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit Academic Complaint"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@android:color/holo_green_dark"/>
-
-            <Button
-                android:id="@+id/btnViewDashboard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="View Dashboard"
-                android:backgroundTint="@android:color/holo_blue_dark"/>
-
+                android:text="Faculty Academic Portal"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtFacultyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Faculty Name"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Academic Location Type:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerFacultyLocation"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/tvStaffItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Item / Equipment:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/spinnerStaffItem"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tvLabItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Lab Asset Type:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/spinnerLabItem"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/edtFacultyLocationDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Location Details / Room Number"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"/>
+
+        <EditText
+            android:id="@+id/edtPcNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter PC Number"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tvCategoryLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Category:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <!-- Custom issue description for faculty "Other" or general entries -->
+        <EditText
+            android:id="@+id/edtFacultyIssueDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Describe your issue..."
+            android:textSize="16sp"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Severity Level:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupSeverity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
+
+            <RadioButton android:id="@+id/rbLow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low" android:textSize="16sp" android:layout_marginEnd="16dp"/>
+            <RadioButton android:id="@+id/rbMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium" android:textSize="16sp" android:layout_marginEnd="16dp"/>
+            <RadioButton android:id="@+id/rbHigh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High" android:textSize="16sp"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attach Issue Photo"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@android:color/darker_gray"/>
+
+        <ImageView
+            android:id="@+id/imgComplaintPreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="15dp"/>
+
+        <Button
+            android:id="@+id/btnSubmitComplaint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Academic Complaint"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@android:color/holo_green_dark"/>
+
+        <Button
+            android:id="@+id/btnViewDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Dashboard"
+            android:textSize="16sp"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
+
+    </LinearLayout>
+</ScrollView>
