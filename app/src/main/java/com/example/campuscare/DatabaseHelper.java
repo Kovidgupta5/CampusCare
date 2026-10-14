@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_SEVERITY = "SEVERITY";
     public static final String COL_IMAGE = "IMAGE";
     public static final String COL_STATUS = "STATUS";
+    public static final String COL_RES_IMAGE = "RESOLUTION_IMAGE";
 
     // Users Table
     public static final String TABLE_USERS = "users_table";
@@ -28,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ROLE = "ROLE";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3); // Version 3 handles new columns
+        super(context, DATABASE_NAME, null, 4);
     }
 
     @Override
@@ -40,7 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_CATEGORY + " TEXT, " +
                 COL_SEVERITY + " TEXT, " +
                 COL_IMAGE + " TEXT, " +
-                COL_STATUS + " TEXT)");
+                COL_STATUS + " TEXT, " +
+                COL_RES_IMAGE + " TEXT)");
 
         db.execSQL("CREATE TABLE " + TABLE_USERS + " (" +
                 COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -48,8 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_PASSWORD + " TEXT, " +
                 COL_ROLE + " TEXT)");
 
+        // Default Credentials
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('student1', '123', 'Student')");
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('faculty1', '123', 'Faculty')");
+        db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('resolver1', '123', 'Resolver')");
     }
 
     @Override
@@ -67,7 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_CATEGORY, category);
         contentValues.put(COL_SEVERITY, severity);
         contentValues.put(COL_IMAGE, imageUri);
-        contentValues.put(COL_STATUS, "Pending"); // Default initial status
+        contentValues.put(COL_STATUS, "Pending");
+        contentValues.put(COL_RES_IMAGE, "");
         long result = db.insert(TABLE_COMPLAINTS, null, contentValues);
         return result != -1;
     }
@@ -77,10 +82,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_COMPLAINTS, null);
     }
 
-    public boolean updateStatus(int id, String newStatus) {
+    public boolean updateByResolver(int id, String status, String resImageUri) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_STATUS, newStatus);
+        contentValues.put(COL_STATUS, status);
+        contentValues.put(COL_RES_IMAGE, resImageUri);
+        long result = db.update(TABLE_COMPLAINTS, contentValues, COL_ID + " = ?", new String[]{String.valueOf(id)});
+        return result > 0;
+    }
+
+    public boolean acceptResolution(int id, String finalStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_STATUS, finalStatus);
         long result = db.update(TABLE_COMPLAINTS, contentValues, COL_ID + " = ?", new String[]{String.valueOf(id)});
         return result > 0;
     }
