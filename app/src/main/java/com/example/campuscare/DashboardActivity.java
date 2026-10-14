@@ -1,8 +1,12 @@
 package com.example.campuscare;
 
+import android.content.Intent;
+
 import android.database.Cursor;
 
 import android.os.Bundle;
+
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +19,8 @@ import java.util.ArrayList;
 public class DashboardActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+
+    Button btnOpenForm;
 
     DatabaseHelper myDb;
 
@@ -40,6 +46,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewComplaints);
 
+        btnOpenForm = findViewById(R.id.btnOpenForm);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         myDb = new DatabaseHelper(this);
@@ -51,6 +59,26 @@ public class DashboardActivity extends AppCompatActivity {
         complaintAdapter = new ComplaintAdapter(complaintList, userRole);
 
         recyclerView.setAdapter(complaintAdapter);
+
+        // Smart routing: opens Student form or Faculty form based on who is logged in
+
+        btnOpenForm.setOnClickListener(v -> {
+
+            Intent intent;
+
+            if (userRole.equals("Faculty")) {
+
+                intent = new Intent(DashboardActivity.this, FacultyFormActivity.class);
+
+            } else {
+
+                intent = new Intent(DashboardActivity.this, StudentFormActivity.class);
+
+            }
+
+            startActivity(intent);
+
+        });
 
     }
 

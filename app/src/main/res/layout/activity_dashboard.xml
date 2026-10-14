@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="#F5F5F5">
+
+    <!-- Watermark Logo Background -->
     <ImageView
-
         android:layout_width="280dp"
-
         android:layout_height="280dp"
-
         android:layout_centerInParent="true"
-
         android:alpha="0.12"
-
         android:src="@drawable/nmims_logo"
-
         android:scaleType="centerInside" />
-    <Button
-        android:id="@+id/btnOpenForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+ Submit New Complaint (Lab / Staff Room)"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="All Campus Complaints Dashboard"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="12dp"
-        android:textColor="@android:color/black"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewComplaints"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-</LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All Campus Complaints Dashboard"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"
+            android:textColor="@android:color/black"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewComplaints"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnOpenForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ File New Complaint"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</RelativeLayout>
