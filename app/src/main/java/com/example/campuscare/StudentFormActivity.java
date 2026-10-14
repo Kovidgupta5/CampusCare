@@ -21,7 +21,7 @@ public class StudentFormActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    EditText edtName;
+    EditText edtName, edtDynamicLocation;
     Spinner spinnerLocationType, spinnerSubLocation, spinnerCategory;
     RadioGroup radioGroupSeverity;
     Button btnSubmit, btnViewDashboard, btnSelectImage;
@@ -38,6 +38,7 @@ public class StudentFormActivity extends AppCompatActivity {
         myDb = new DatabaseHelper(this);
 
         edtName = findViewById(R.id.edtStudentName);
+        edtDynamicLocation = findViewById(R.id.edtDynamicLocation);
         spinnerLocationType = findViewById(R.id.spinnerLocationType);
         spinnerSubLocation = findViewById(R.id.spinnerSubLocation);
         spinnerCategory = findViewById(R.id.spinnerCategory);
@@ -47,7 +48,8 @@ public class StudentFormActivity extends AppCompatActivity {
         btnSelectImage = findViewById(R.id.btnSelectImage);
         imgComplaintPreview = findViewById(R.id.imgComplaintPreview);
 
-        String[] mainLocations = {"Academic Block", "Hostel"};
+        // Main Area Options (Academic Block, Hostel, Washroom)
+        String[] mainLocations = {"Academic Block", "Hostel", "Washroom"};
         ArrayAdapter<String> mainAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mainLocations);
         spinnerLocationType.setAdapter(mainAdapter);
 
@@ -56,12 +58,24 @@ public class StudentFormActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedType = parent.getItemAtPosition(position).toString();
                 ArrayAdapter<String> subAdapter;
+
                 if (selectedType.equals("Academic Block")) {
                     String[] academicSubs = {"Campus", "Lecture Room (LR)", "Lab"};
                     subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, academicSubs);
-                } else {
-                    String[] hostelSubs = {"Hostel Room", "Mess / Dining Hall", "Common Room", "Hostel Corridor"};
+                    spinnerSubLocation.setVisibility(View.VISIBLE);
+                    edtDynamicLocation.setVisibility(View.VISIBLE);
+                    edtDynamicLocation.setHint("Enter Campus / LR / Lab Details");
+                } else if (selectedType.equals("Hostel")) {
+                    String[] hostelSubs = {"Hostel Room", "Mess / Dining Hall", "TV Room", "Hostel Corridor"};
                     subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, hostelSubs);
+                    spinnerSubLocation.setVisibility(View.VISIBLE);
+                    edtDynamicLocation.setVisibility(View.VISIBLE);
+                    edtDynamicLocation.setHint("Enter Room Number / Location Details");
+                } else {
+                    // General Washroom selected
+                    spinnerSubLocation.setVisibility(View.GONE);
+                    edtDynamicLocation.setVisibility(View.VISIBLE);
+                    edtDynamicLocation.setHint("Enter Washroom Location");
                 }
                 spinnerSubLocation.setAdapter(subAdapter);
             }
@@ -70,7 +84,30 @@ public class StudentFormActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        String[] categories = {"Fan / AC", "Light / Switch", "Wi-Fi Network", "Smartboard / Projector", "Washroom Cleanliness"};
+        // Dynamic hint updates based on sub-location selection
+        spinnerSubLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String subLoc = parent.getItemAtPosition(position).toString();
+                if (subLoc.equals("Hostel Room")) {
+                    edtDynamicLocation.setHint("Enter Room Number");
+                } else if (subLoc.equals("Lecture Room (LR)")) {
+                    edtDynamicLocation.setHint("Enter LR Room Number");
+                } else if (subLoc.equals("Lab")) {
+                    edtDynamicLocation.setHint("Enter Lab Location / Number");
+                } else if (subLoc.equals("Campus")) {
+                    edtDynamicLocation.setHint("Enter Campus Location");
+                } else {
+                    edtDynamicLocation.setHint("Enter Specific Location Details");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // Categories (Washroom cleanliness removed as requested)
+        String[] categories = {"Fan / AC", "Light / Switch", "Wi-Fi Network", "Smartboard / Projector", "Plumbing / General"};
         ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(catAdapter);
 
@@ -81,12 +118,25 @@ public class StudentFormActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(v -> {
             String name = edtName.getText().toString().trim();
-            String location = spinnerLocationType.getSelectedItem().toString() + " - " + spinnerSubLocation.getSelectedItem().toString();
+            String mainType = spinnerLocationType.getSelectedItem().toString();
+            String detailLocation = edtDynamicLocation.getText().toString().trim();
+
+            String location;
+            if (mainType.equals("Washroom")) {
+                location = "Washroom - " + detailLocation;
+            } else {
+                String subType = spinnerSubLocation.getSelectedItem().toString();
+                location = mainType + " (" + subType + ") - " + detailLocation;
+            }
+
             String category = spinnerCategory.getSelectedItem().toString();
 
             if (name.isEmpty()) {
                 edtName.requestFocus();
                 edtName.setError("Enter Your Name");
+            } else if (detailLocation.isEmpty()) {
+                edtDynamicLocation.requestFocus();
+                edtDynamicLocation.setError("Enter Location / Room Number");
             } else {
                 int selectedId = radioGroupSeverity.getCheckedRadioButtonId();
                 if (selectedId == -1) {
@@ -100,6 +150,7 @@ public class StudentFormActivity extends AppCompatActivity {
                 if (isInserted) {
                     Toast.makeText(StudentFormActivity.this, "Student Complaint Submitted Successfully!", Toast.LENGTH_LONG).show();
                     edtName.setText("");
+                    edtDynamicLocation.setText("");
                     imgComplaintPreview.setImageURI(null);
                     imageUriString = "";
                 } else {

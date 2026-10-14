@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Academic Block Location:"
+            android:text="Academic Location Type:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="5dp"/>
@@ -39,6 +39,60 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="15dp"/>
+
+        <!-- Dynamic Item Option for Staff Room (PC, Chair, AC, WIFI, FAN, light, switch) -->
+        <TextView
+            android:id="@+id/tvStaffItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Item / Equipment:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/spinnerStaffItem"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <!-- Dynamic Item Option for Lab (PC or Equipments) -->
+        <TextView
+            android:id="@+id/tvLabItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Lab Asset Type:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/spinnerLabItem"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
+
+        <!-- Dynamic EditText for Location / Room Number / PC Number -->
+        <EditText
+            android:id="@+id/edtFacultyLocationDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Location Details / Room Number"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"/>
+
+        <EditText
+            android:id="@+id/edtPcNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter PC Number"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"

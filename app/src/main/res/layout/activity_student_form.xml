@@ -54,6 +54,15 @@
             android:layout_height="48dp"
             android:layout_marginBottom="15dp"/>
 
+        <!-- Dynamic Input for Room Number / LR Number / Lab Location / Campus Details / Washroom Location -->
+        <EditText
+            android:id="@+id/edtDynamicLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Location Details / Room Number"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
