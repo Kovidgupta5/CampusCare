@@ -57,17 +57,18 @@ public class StudentFormActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedType = parent.getItemAtPosition(position).toString();
-                ArrayAdapter<String> subAdapter;
 
                 if (selectedType.equals("Academic Block")) {
                     String[] academicSubs = {"Campus", "Lecture Room (LR)", "Lab"};
-                    subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, academicSubs);
+                    ArrayAdapter<String> subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, academicSubs);
+                    spinnerSubLocation.setAdapter(subAdapter);
                     spinnerSubLocation.setVisibility(View.VISIBLE);
                     edtDynamicLocation.setVisibility(View.VISIBLE);
                     edtDynamicLocation.setHint("Enter Campus / LR / Lab Details");
                 } else if (selectedType.equals("Hostel")) {
                     String[] hostelSubs = {"Hostel Room", "Mess / Dining Hall", "TV Room", "Hostel Corridor"};
-                    subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, hostelSubs);
+                    ArrayAdapter<String> subAdapter = new ArrayAdapter<>(StudentFormActivity.this, android.R.layout.simple_spinner_dropdown_item, hostelSubs);
+                    spinnerSubLocation.setAdapter(subAdapter);
                     spinnerSubLocation.setVisibility(View.VISIBLE);
                     edtDynamicLocation.setVisibility(View.VISIBLE);
                     edtDynamicLocation.setHint("Enter Room Number / Location Details");
@@ -77,7 +78,6 @@ public class StudentFormActivity extends AppCompatActivity {
                     edtDynamicLocation.setVisibility(View.VISIBLE);
                     edtDynamicLocation.setHint("Enter Washroom Location");
                 }
-                spinnerSubLocation.setAdapter(subAdapter);
             }
 
             @Override
@@ -106,7 +106,7 @@ public class StudentFormActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Categories (Washroom cleanliness removed as requested)
+        // Categories
         String[] categories = {"Fan / AC", "Light / Switch", "Wi-Fi Network", "Smartboard / Projector", "Plumbing / General"};
         ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(catAdapter);
