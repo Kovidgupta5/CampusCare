@@ -23,7 +23,6 @@ public class ComplaintModel {
     public String getImageUri() { return imageUri; }
     public String getStatus() { return status; }
     public String getResolutionImageUri() { return resolutionImageUri; }
-
     public void setStatus(String status) { this.status = status; }
     public void setResolutionImageUri(String resolutionImageUri) { this.resolutionImageUri = resolutionImageUri; }
 }
