@@ -51,7 +51,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
             holder.imgResolutionItem.setImageResource(android.R.drawable.ic_menu_camera);
         }
 
-        // Role-based button control
+        // Role-based button configuration
         if (loggedInRole.equals("Resolver")) {
             if (complaint.getStatus().equals("Pending")) {
                 holder.btnAction.setText("Upload Proof & Mark Done");
@@ -62,8 +62,12 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
                 holder.btnAction.setEnabled(false);
                 holder.btnAction.setVisibility(View.VISIBLE);
             }
+        } else if (loggedInRole.equals("Admin")) {
+            holder.btnAction.setText("Admin Delete");
+            holder.btnAction.setVisibility(View.VISIBLE);
+            holder.btnAction.setEnabled(true);
         } else {
-            // Faculty or Student (Reporter) view
+            // Student or Faculty (Reporter) view
             if (complaint.getStatus().equals("Work Completed - Awaiting Acceptance")) {
                 holder.btnAction.setText("Accept & Close Ticket");
                 holder.btnAction.setVisibility(View.VISIBLE);
@@ -77,28 +81,33 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
             }
         }
 
-        holder.btnAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                DatabaseHelper db = new DatabaseHelper(context);
+        holder.btnAction.setOnClickListener(v -> {
+            Context context = v.getContext();
+            DatabaseHelper db = new DatabaseHelper(context);
 
-                if (loggedInRole.equals("Resolver")) {
-                    String dummyProofUri = "android.resource://com.example.campuscare/drawable/ic_menu_camera";
-                    boolean success = db.updateByResolver(complaint.getId(), "Work Completed - Awaiting Acceptance", dummyProofUri);
-                    if (success) {
-                        complaint.setStatus("Work Completed - Awaiting Acceptance");
-                        complaint.setResolutionImageUri(dummyProofUri);
-                        notifyItemChanged(position);
-                        Toast.makeText(context, "Work marked complete. Proof uploaded.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    boolean success = db.acceptResolution(complaint.getId(), "Accepted / Closed");
-                    if (success) {
-                        complaint.setStatus("Accepted / Closed");
-                        notifyItemChanged(position);
-                        Toast.makeText(context, "Ticket accepted and closed successfully!", Toast.LENGTH_SHORT).show();
-                    }
+            if (loggedInRole.equals("Resolver")) {
+                String dummyProofUri = "android.resource://com.example.campuscare/drawable/ic_menu_camera";
+                boolean success = db.updateByResolver(complaint.getId(), "Work Completed - Awaiting Acceptance", dummyProofUri);
+                if (success) {
+                    complaint.setStatus("Work Completed - Awaiting Acceptance");
+                    complaint.setResolutionImageUri(dummyProofUri);
+                    notifyItemChanged(position);
+                    Toast.makeText(context, "Work marked complete. Proof uploaded.", Toast.LENGTH_SHORT).show();
+                }
+            } else if (loggedInRole.equals("Admin")) {
+                boolean success = db.deleteComplaint(complaint.getId());
+                if (success) {
+                    complaintList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, complaintList.size());
+                    Toast.makeText(context, "Complaint deleted by Admin", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                boolean success = db.acceptResolution(complaint.getId(), "Accepted / Closed");
+                if (success) {
+                    complaint.setStatus("Accepted / Closed");
+                    notifyItemChanged(position);
+                    Toast.makeText(context, "Ticket accepted and closed successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

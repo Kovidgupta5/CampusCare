@@ -38,7 +38,7 @@
                     android:id="@+id/tvLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Location: Room 101"
+                    android:text="Location"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 
@@ -46,12 +46,11 @@
                     android:id="@+id/tvReporter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="By: John Doe"
+                    android:text="By: Name"
                     android:textSize="12sp"
                     android:layout_marginTop="4dp"/>
             </LinearLayout>
 
-            <!-- Original Complaint Photo Thumbnail -->
             <ImageView
                 android:id="@+id/imgComplaintItem"
                 android:layout_width="60dp"
@@ -60,7 +59,6 @@
                 android:background="#E0E0E0"
                 android:layout_marginStart="4dp"/>
 
-            <!-- Resolution Proof Photo Thumbnail -->
             <ImageView
                 android:id="@+id/imgResolutionItem"
                 android:layout_width="60dp"
