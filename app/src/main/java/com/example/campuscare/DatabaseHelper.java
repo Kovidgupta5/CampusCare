@@ -17,8 +17,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_LOCATION = "LOCATION";
     public static final String COL_CATEGORY = "CATEGORY";
     public static final String COL_SEVERITY = "SEVERITY";
+    public static final String COL_IMAGE = "IMAGE";
+    public static final String COL_STATUS = "STATUS";
 
-    // Users Table (New for Phase 4)
+    // Users Table
     public static final String TABLE_USERS = "users_table";
     public static final String COL_USER_ID = "USER_ID";
     public static final String COL_USERNAME = "USERNAME";
@@ -26,18 +28,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ROLE = "ROLE";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2); // Increased version to 2 for upgrade
+        super(context, DATABASE_NAME, null, 3); // Version 3 handles new columns
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create Complaints Table
-        db.execSQL("CREATE TABLE " + TABLE_COMPLAINTS + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, LOCATION TEXT, CATEGORY TEXT, SEVERITY TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_COMPLAINTS + " (" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_NAME + " TEXT, " +
+                COL_LOCATION + " TEXT, " +
+                COL_CATEGORY + " TEXT, " +
+                COL_SEVERITY + " TEXT, " +
+                COL_IMAGE + " TEXT, " +
+                COL_STATUS + " TEXT)");
 
-        // Create Users Table
-        db.execSQL("CREATE TABLE " + TABLE_USERS + " (USER_ID INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, PASSWORD TEXT, ROLE TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_USERS + " (" +
+                COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_USERNAME + " TEXT, " +
+                COL_PASSWORD + " TEXT, " +
+                COL_ROLE + " TEXT)");
 
-        // Insert Default Test Accounts
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('student1', '123', 'Student')");
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('faculty1', '123', 'Faculty')");
     }
@@ -49,13 +59,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String name, String location, String category, String severity) {
+    public boolean insertData(String name, String location, String category, String severity, String imageUri) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_NAME, name);
         contentValues.put(COL_LOCATION, location);
         contentValues.put(COL_CATEGORY, category);
         contentValues.put(COL_SEVERITY, severity);
+        contentValues.put(COL_IMAGE, imageUri);
+        contentValues.put(COL_STATUS, "Pending"); // Default initial status
         long result = db.insert(TABLE_COMPLAINTS, null, contentValues);
         return result != -1;
     }
@@ -65,11 +77,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_COMPLAINTS, null);
     }
 
-    // Verify login and return role ("Student" or "Faculty")
+    public boolean updateStatus(int id, String newStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_STATUS, newStatus);
+        long result = db.update(TABLE_COMPLAINTS, contentValues, COL_ID + " = ?", new String[]{String.valueOf(id)});
+        return result > 0;
+    }
+
     public String checkUserRole(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + COL_ROLE + " FROM " + TABLE_USERS + " WHERE " + COL_USERNAME + "=? AND " + COL_PASSWORD + "=?", new String[]{username, password});
-
         if (cursor.moveToFirst()) {
             String role = cursor.getString(0);
             cursor.close();

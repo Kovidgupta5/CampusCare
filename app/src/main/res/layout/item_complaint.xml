@@ -14,36 +14,58 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvCategory"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Location: Room 101"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location: Room 101"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/tvReporter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="By: John Doe"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgComplaintItem"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:background="#E0E0E0"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tvReporter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="By: Ram"
-                android:textSize="12sp"/>
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tvSeverity"
@@ -53,6 +75,25 @@
                 android:textColor="@android:color/holo_red_dark"
                 android:textStyle="bold"
                 android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Status: Pending"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/holo_orange_dark"/>
+
+            <Button
+                android:id="@+id/btnResolve"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Resolve"
+                android:textSize="10sp"
+                android:backgroundTint="@android:color/holo_green_dark"/>
         </LinearLayout>
 
     </LinearLayout>

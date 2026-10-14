@@ -40,13 +40,17 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
             String name = cursor.getString(1);
             String location = cursor.getString(2);
             String category = cursor.getString(3);
             String severity = cursor.getString(4);
+            String imageUri = cursor.getString(5);
+            String status = cursor.getString(6);
 
-            ComplaintModel complaint = new ComplaintModel(name, location, category, severity);
+            ComplaintModel complaint = new ComplaintModel(id, name, location, category, severity, imageUri, status);
             complaintList.add(complaint);
         }
+        cursor.close();
     }
 }

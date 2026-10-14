@@ -1,95 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-
-    <TextView
-        android:id="@+id/tvAppTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CampusCare Issue Form"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtReporterName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Name (Student / Professor)"
-        android:textSize="18sp"
-        android:layout_marginBottom="15dp"/>
-
-    <EditText
-        android:id="@+id/edtLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Location (e.g., Room 304, Staff Room)"
-        android:textSize="18sp"
-        android:layout_marginBottom="15dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Issue Category:"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginBottom="5dp"/>
-
-    <Spinner
-        android:id="@+id/spinnerCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Severity / Status:"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginBottom="5dp"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroupSeverity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
-
-        <RadioButton
-            android:id="@+id/rbNormal"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Normal"
-            android:layout_marginEnd="20dp"
-            android:textSize="16sp"/>
+            android:text="CampusCare Issue Form"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
 
-        <RadioButton
-            android:id="@+id/rbUrgent"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edtReporterName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Urgent"
-            android:textSize="16sp"/>
-    </RadioGroup>
+            android:hint="Enter Name (Student / Professor)"
+            android:textSize="18sp"
+            android:layout_marginBottom="15dp"/>
 
-    <Button
-        android:id="@+id/btnSubmitComplaint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit Complaint"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
-    <Button
-        android:id="@+id/btnViewDashboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View All Complaints Dashboard"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@android:color/holo_blue_dark"/>
+        <EditText
+            android:id="@+id/edtLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Location (e.g., Room 304, Staff Room)"
+            android:textSize="18sp"
+            android:layout_marginBottom="15dp"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Category:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Severity Level:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupSeverity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
+
+            <RadioButton
+                android:id="@+id/rbLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Low"
+                android:layout_marginEnd="16dp"/>
+
+            <RadioButton
+                android:id="@+id/rbMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:layout_marginEnd="16dp"/>
+
+            <RadioButton
+                android:id="@+id/rbHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attach Photo"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@android:color/darker_gray"/>
+
+        <ImageView
+            android:id="@+id/imgComplaintPreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="15dp"/>
+
+        <Button
+            android:id="@+id/btnSubmitComplaint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Complaint"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@android:color/holo_green_dark"/>
+
+        <Button
+            android:id="@+id/btnViewDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View All Complaints Dashboard"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
+
+    </LinearLayout>
+</ScrollView>
