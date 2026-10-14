@@ -12,26 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusCare">
 
-        <!-- Login Activity as the initial launch screen -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+        <activity android:name=".LoginActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Student Form Activity -->
-        <activity
-            android:name=".CampusCareActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- Faculty Dashboard Activity -->
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
+        <activity android:name=".StudentFormActivity" android:exported="false" />
+        <activity android:name=".FacultyFormActivity" android:exported="false" />
+        <activity android:name=".ResolverActivity" android:exported="false" />
+        <activity android:name=".AdminActivity" android:exported="false" />
+        <activity android:name=".DashboardActivity" android:exported="false" />
 
     </application>
 
