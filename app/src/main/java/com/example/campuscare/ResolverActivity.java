@@ -2,6 +2,8 @@ package com.example.campuscare;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 public class ResolverActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    TextView tvEmpty;
     DatabaseHelper myDb;
     ArrayList<ComplaintModel> complaintList;
     ComplaintAdapter complaintAdapter;
@@ -20,6 +23,8 @@ public class ResolverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_resolver);
 
         recyclerView = findViewById(R.id.recyclerViewResolver);
+        tvEmpty = findViewById(R.id.tvEmpty);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         myDb = new DatabaseHelper(this);
@@ -31,9 +36,27 @@ public class ResolverActivity extends AppCompatActivity {
         recyclerView.setAdapter(complaintAdapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataFromDB();
+        if (complaintAdapter != null) {
+            complaintAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void loadDataFromDB() {
+        complaintList.clear();
         Cursor cursor = myDb.getAllData();
-        if (cursor.getCount() == 0) return;
+        if (cursor.getCount() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            cursor.close();
+            return;
+        }
+
+        tvEmpty.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);

@@ -1,12 +1,11 @@
 package com.example.campuscare;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,75 +14,71 @@ import java.util.ArrayList;
 public class AdminActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    EditText edtNewUsername, edtNewPassword;
-    Spinner spinnerUserRole;
-    Button btnAddUser;
+    Button btnManageUsers;
+    TextView tvEmpty;
     DatabaseHelper myDb;
-    ArrayList<UserModel> userList;
-    UserAdapter userAdapter;
+    ArrayList<ComplaintModel> complaintList;
+    ComplaintAdapter complaintAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        myDb = new DatabaseHelper(this);
-        edtNewUsername = findViewById(R.id.edtNewUsername);
-        edtNewPassword = findViewById(R.id.edtNewPassword);
-        spinnerUserRole = findViewById(R.id.spinnerUserRole);
-        btnAddUser = findViewById(R.id.btnAddUser);
         recyclerView = findViewById(R.id.recyclerViewAdmin);
+        btnManageUsers = findViewById(R.id.btnManageUsers);
+        tvEmpty = findViewById(R.id.tvEmpty);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userList = new ArrayList<>();
 
-        // Added "Resolver" to the available roles list
-        String[] roles = {"Student", "Faculty", "Resolver"};
-        ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, roles);
-        spinnerUserRole.setAdapter(roleAdapter);
+        myDb = new DatabaseHelper(this);
+        complaintList = new ArrayList<>();
 
-        loadUsersFromDB();
+        loadDataFromDB();
 
-        userAdapter = new UserAdapter(userList);
-        recyclerView.setAdapter(userAdapter);
+        complaintAdapter = new ComplaintAdapter(complaintList, "Admin");
+        recyclerView.setAdapter(complaintAdapter);
 
-        btnAddUser.setOnClickListener(v -> {
-            String username = edtNewUsername.getText().toString().trim();
-            String password = edtNewPassword.getText().toString().trim();
-            String role = spinnerUserRole.getSelectedItem().toString();
-
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(AdminActivity.this, "Please enter username and password", Toast.LENGTH_SHORT).show();
-            } else {
-                boolean inserted = myDb.addUser(username, password, role);
-                if (inserted) {
-                    Toast.makeText(AdminActivity.this, "User added successfully!", Toast.LENGTH_SHORT).show();
-                    edtNewUsername.setText("");
-                    edtNewPassword.setText("");
-                    loadUsersFromDB();
-                    userAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(AdminActivity.this, "Error adding user (Username may already exist)", Toast.LENGTH_SHORT).show();
-                }
-            }
+        btnManageUsers.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminActivity.this, AdminUsersActivity.class);
+            startActivity(intent);
         });
     }
 
-    private void loadUsersFromDB() {
-        userList.clear();
-        Cursor cursor = myDb.getAllUsers();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataFromDB();
+        if (complaintAdapter != null) {
+            complaintAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void loadDataFromDB() {
+        complaintList.clear();
+        Cursor cursor = myDb.getAllData();
         if (cursor.getCount() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
             cursor.close();
             return;
         }
 
-        while (cursor.moveToNext()) {
-            int userId = cursor.getInt(0);
-            String username = cursor.getString(1);
-            String role = cursor.getString(3); // Column index 3 is ROLE
+        tvEmpty.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
-            UserModel user = new UserModel(userId, username, role);
-            userList.add(user);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String location = cursor.getString(2);
+            String category = cursor.getString(3);
+            String severity = cursor.getString(4);
+            String imageUri = cursor.getString(5);
+            String status = cursor.getString(6);
+            String resImageUri = cursor.getString(7);
+
+            ComplaintModel complaint = new ComplaintModel(id, name, location, category, severity, imageUri, status, resImageUri);
+            complaintList.add(complaint);
         }
         cursor.close();
     }

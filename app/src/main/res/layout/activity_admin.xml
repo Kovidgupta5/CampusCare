@@ -7,13 +7,12 @@
     android:background="#F5F5F5"
     android:padding="16dp">
 
-    <!-- Top-Left App Header with Logo -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="12dp">
 
         <ImageView
             android:layout_width="40dp"
@@ -25,60 +24,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Admin User Management"
+            android:text="Admin Master Control"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
     </LinearLayout>
 
-    <!-- Add User Form Section -->
-    <EditText
-        android:id="@+id/edtNewUsername"
+    <Button
+        android:id="@+id/btnManageUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="New Username"
+        android:text="Manage Users (Add / Remove)"
         android:textSize="16sp"
-        android:layout_marginBottom="10dp"/>
-
-    <EditText
-        android:id="@+id/edtNewPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textSize="16sp"
-        android:layout_marginBottom="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Role:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"/>
-
-    <Spinner
-        android:id="@+id/spinnerUserRole"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
         android:layout_marginBottom="12dp"/>
 
-    <Button
-        android:id="@+id/btnAddUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add User"
-        android:textSize="16sp"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:layout_marginBottom="16dp"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Existing Users List:"
+        android:text="All Campus Complaints Oversight:"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No new complaints."
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="50dp"
+        android:textColor="@android:color/darker_gray"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAdmin"

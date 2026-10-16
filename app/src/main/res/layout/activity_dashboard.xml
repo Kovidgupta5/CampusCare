@@ -40,6 +40,18 @@
         android:textColor="@android:color/white"
         android:textStyle="bold"/>
 
+    <!-- Empty State Text View -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No new complaint."
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="50dp"
+        android:textColor="@android:color/darker_gray"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewComplaints"
         android:layout_width="match_parent"

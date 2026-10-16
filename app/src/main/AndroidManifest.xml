@@ -23,7 +23,7 @@
         <activity android:name=".ResolverActivity" android:exported="false" />
         <activity android:name=".AdminActivity" android:exported="false" />
         <activity android:name=".DashboardActivity" android:exported="false" />
-
+        <activity android:name=".AdminUsersActivity" android:exported="false" />
     </application>
 
 </manifest>
