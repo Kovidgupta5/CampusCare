@@ -1,11 +1,13 @@
 package com.example.campuscare;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,11 +23,16 @@ public class AdminUsersActivity extends AppCompatActivity {
     DatabaseHelper myDb;
     ArrayList<UserModel> userList;
     UserAdapter userAdapter;
+    String currentUsername = "admin1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_users);
+
+        if (getIntent().hasExtra("USERNAME")) {
+            currentUsername = getIntent().getStringExtra("USERNAME");
+        }
 
         myDb = new DatabaseHelper(this);
         edtNewUsername = findViewById(R.id.edtNewUsername);
@@ -65,6 +72,30 @@ public class AdminUsersActivity extends AppCompatActivity {
                     Toast.makeText(AdminUsersActivity.this, "Error adding user (Username may already exist)", Toast.LENGTH_SHORT).show();
                 }
             }
+        });
+
+        // Admin Bottom Navigation Setup (Complaints, Users, Profile)
+        TextView txtTab1 = findViewById(R.id.txtTab1);
+        TextView txtTab2 = findViewById(R.id.txtTab2);
+        TextView txtTab3 = findViewById(R.id.txtTab3);
+        txtTab1.setText("Complaints");
+        txtTab2.setText("Users");
+        txtTab3.setText("Profile");
+
+        findViewById(R.id.navTab1).setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", "Admin");
+            startActivity(intent);
+            finish();
+        });
+        findViewById(R.id.navTab2).setOnClickListener(v -> {});
+        findViewById(R.id.navTab3).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", "Admin");
+            startActivity(intent);
+            finish();
         });
     }
 

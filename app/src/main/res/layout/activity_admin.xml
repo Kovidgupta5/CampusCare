@@ -4,66 +4,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#F5F5F5"
-    android:padding="16dp">
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="12dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/nmims_logo1"
-            android:scaleType="centerInside"
-            android:layout_marginEnd="12dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/nmims_logo1"
+                android:scaleType="centerInside"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin Master Control"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Admin Master Control"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:text="No new complaint."
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/darker_gray"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnManageUsers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Manage Users (Add / Remove)"
-        android:textSize="16sp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="12dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="All Campus Complaints Oversight:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"/>
-
-    <TextView
-        android:id="@+id/tvEmpty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No new complaints."
-        android:textSize="16sp"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="50dp"
-        android:textColor="@android:color/darker_gray"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAdmin"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <!-- Bottom Navigation Bar -->
+    <include layout="@layout/layout_bottom_nav" />
 
 </LinearLayout>

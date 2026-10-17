@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,19 +13,22 @@ import java.util.ArrayList;
 public class AdminActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    Button btnManageUsers;
     TextView tvEmpty;
     DatabaseHelper myDb;
     ArrayList<ComplaintModel> complaintList;
     ComplaintAdapter complaintAdapter;
+    String currentUsername = "admin1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+        if (getIntent().hasExtra("USERNAME")) {
+            currentUsername = getIntent().getStringExtra("USERNAME");
+        }
+
         recyclerView = findViewById(R.id.recyclerViewAdmin);
-        btnManageUsers = findViewById(R.id.btnManageUsers);
         tvEmpty = findViewById(R.id.tvEmpty);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -39,9 +41,28 @@ public class AdminActivity extends AppCompatActivity {
         complaintAdapter = new ComplaintAdapter(complaintList, "Admin");
         recyclerView.setAdapter(complaintAdapter);
 
-        btnManageUsers.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminActivity.this, AdminUsersActivity.class);
+        // Admin Bottom Navigation Setup (Complaints, Users, Profile)
+        TextView txtTab1 = findViewById(R.id.txtTab1);
+        TextView txtTab2 = findViewById(R.id.txtTab2);
+        TextView txtTab3 = findViewById(R.id.txtTab3);
+        txtTab1.setText("Complaints");
+        txtTab2.setText("Users");
+        txtTab3.setText("Profile");
+
+        findViewById(R.id.navTab1).setOnClickListener(v -> {});
+        findViewById(R.id.navTab2).setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminUsersActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", "Admin");
             startActivity(intent);
+            finish();
+        });
+        findViewById(R.id.navTab3).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", "Admin");
+            startActivity(intent);
+            finish();
         });
     }
 

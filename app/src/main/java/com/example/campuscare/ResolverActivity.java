@@ -1,8 +1,10 @@
 package com.example.campuscare;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,11 +18,16 @@ public class ResolverActivity extends AppCompatActivity {
     DatabaseHelper myDb;
     ArrayList<ComplaintModel> complaintList;
     ComplaintAdapter complaintAdapter;
+    String currentUsername = "resolver1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resolver);
+
+        if (getIntent().hasExtra("USERNAME")) {
+            currentUsername = getIntent().getStringExtra("USERNAME");
+        }
 
         recyclerView = findViewById(R.id.recyclerViewResolver);
         tvEmpty = findViewById(R.id.tvEmpty);
@@ -34,6 +41,24 @@ public class ResolverActivity extends AppCompatActivity {
 
         complaintAdapter = new ComplaintAdapter(complaintList, "Resolver");
         recyclerView.setAdapter(complaintAdapter);
+
+        // Resolver Bottom Navigation (Tasks & Profile)
+        LinearLayout tab2 = findViewById(R.id.navTab2);
+        tab2.setVisibility(View.GONE);
+
+        TextView txtTab1 = findViewById(R.id.txtTab1);
+        TextView txtTab3 = findViewById(R.id.txtTab3);
+        txtTab1.setText("Tasks");
+        txtTab3.setText("Profile");
+
+        findViewById(R.id.navTab1).setOnClickListener(v -> {});
+        findViewById(R.id.navTab3).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", "Resolver");
+            startActivity(intent);
+            finish();
+        });
     }
 
     @Override
