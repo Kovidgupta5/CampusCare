@@ -30,15 +30,35 @@
             android:textColor="@android:color/black"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnOpenForm"
+    <!-- Navigation Buttons Bar (File Complaint & Profile) -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+ File New Complaint"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btnOpenForm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="+ File Complaint"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginEnd="4dp"/>
+
+        <Button
+            android:id="@+id/btnOpenProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Profile"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
 
     <!-- Empty State Text View -->
     <TextView

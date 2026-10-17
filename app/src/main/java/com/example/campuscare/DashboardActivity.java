@@ -14,12 +14,12 @@ import java.util.ArrayList;
 public class DashboardActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    Button btnOpenForm;
+    Button btnOpenForm, btnOpenProfile;
     TextView tvEmpty;
     DatabaseHelper myDb;
     ArrayList<ComplaintModel> complaintList;
     ComplaintAdapter complaintAdapter;
-    String userRole = "Student";
+    String userRole = "Student", currentUsername = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,13 @@ public class DashboardActivity extends AppCompatActivity {
         if (getIntent().hasExtra("USER_ROLE")) {
             userRole = getIntent().getStringExtra("USER_ROLE");
         }
+        if (getIntent().hasExtra("USERNAME")) {
+            currentUsername = getIntent().getStringExtra("USERNAME");
+        }
 
         recyclerView = findViewById(R.id.recyclerViewComplaints);
         btnOpenForm = findViewById(R.id.btnOpenForm);
+        btnOpenProfile = findViewById(R.id.btnOpenProfile);
         tvEmpty = findViewById(R.id.tvEmpty);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -51,6 +55,15 @@ public class DashboardActivity extends AppCompatActivity {
             } else {
                 intent = new Intent(DashboardActivity.this, StudentFormActivity.class);
             }
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", userRole);
+            startActivity(intent);
+        });
+
+        btnOpenProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", userRole);
             startActivity(intent);
         });
     }

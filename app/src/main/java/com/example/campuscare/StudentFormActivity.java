@@ -29,11 +29,12 @@ public class StudentFormActivity extends AppCompatActivity {
     Spinner spinnerLocationType, spinnerSubLocation, spinnerCategory;
     TextView tvSubLocLabel, tvCategoryLabel;
     RadioGroup radioGroupSeverity;
-    Button btnSubmit, btnViewDashboard, btnSelectImage;
+    Button btnSubmit, btnNavDashboard, btnNavProfile, btnSelectImage;
     ImageView imgComplaintPreview;
     DatabaseHelper myDb;
 
     String imageUriString = "";
+    String currentUsername = "", userRole = "Student";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,13 @@ public class StudentFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_form);
 
         myDb = new DatabaseHelper(this);
+
+        if (getIntent().hasExtra("USERNAME")) {
+            currentUsername = getIntent().getStringExtra("USERNAME");
+        }
+        if (getIntent().hasExtra("USER_ROLE")) {
+            userRole = getIntent().getStringExtra("USER_ROLE");
+        }
 
         edtName = findViewById(R.id.edtStudentName);
         edtDynamicLocation = findViewById(R.id.edtDynamicLocation);
@@ -53,9 +61,29 @@ public class StudentFormActivity extends AppCompatActivity {
         tvCategoryLabel = findViewById(R.id.tvCategoryLabel);
         radioGroupSeverity = findViewById(R.id.radioGroupSeverity);
         btnSubmit = findViewById(R.id.btnSubmitComplaint);
-        btnViewDashboard = findViewById(R.id.btnViewDashboard);
+        btnNavDashboard = findViewById(R.id.btnNavDashboard);
+        btnNavProfile = findViewById(R.id.btnNavProfile);
         btnSelectImage = findViewById(R.id.btnSelectImage);
         imgComplaintPreview = findViewById(R.id.imgComplaintPreview);
+
+        if (!currentUsername.isEmpty()) {
+            edtName.setText(currentUsername);
+        }
+
+        // Navigation setup
+        btnNavDashboard.setOnClickListener(v -> {
+            Intent intent = new Intent(StudentFormActivity.this, DashboardActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", userRole);
+            startActivity(intent);
+        });
+
+        btnNavProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(StudentFormActivity.this, ProfileActivity.class);
+            intent.putExtra("USERNAME", currentUsername);
+            intent.putExtra("USER_ROLE", userRole);
+            startActivity(intent);
+        });
 
         String[] mainLocations = {"Academic Block", "Hostel", "Campus"};
         ArrayAdapter<String> mainAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mainLocations);
@@ -220,7 +248,7 @@ public class StudentFormActivity extends AppCompatActivity {
                 boolean isInserted = myDb.insertData(name, location, category, severity, imageUriString);
                 if (isInserted) {
                     Toast.makeText(StudentFormActivity.this, "Student Complaint Submitted Successfully!", Toast.LENGTH_LONG).show();
-                    edtName.setText("");
+                    edtName.setText(currentUsername);
                     edtDynamicLocation.setText("");
                     edtFurnitureType.setText("");
                     edtIssueDescription.setText("");
@@ -230,12 +258,6 @@ public class StudentFormActivity extends AppCompatActivity {
                     Toast.makeText(StudentFormActivity.this, "Error Submitting Complaint", Toast.LENGTH_LONG).show();
                 }
             }
-        });
-
-        btnViewDashboard.setOnClickListener(v -> {
-            Intent intent = new Intent(StudentFormActivity.this, DashboardActivity.class);
-            intent.putExtra("USER_ROLE", "Student");
-            startActivity(intent);
         });
     }
 
