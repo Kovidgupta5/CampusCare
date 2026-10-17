@@ -39,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Faculty Name"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"/>
 
@@ -48,6 +50,7 @@
             android:text="Academic Location Type:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <Spinner
@@ -63,6 +66,7 @@
             android:text="Select Item / Equipment:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"
             android:visibility="gone"/>
 
@@ -80,6 +84,7 @@
             android:text="Select Lab Asset Type:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"
             android:visibility="gone"/>
 
@@ -95,6 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Location Details / Room Number"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"/>
 
@@ -103,6 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter PC Number"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"
             android:visibility="gone"/>
@@ -114,6 +123,7 @@
             android:text="Select Category:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"
             android:visibility="gone"/>
 
@@ -124,12 +134,13 @@
             android:layout_marginBottom="15dp"
             android:visibility="gone"/>
 
-        <!-- Custom issue description for faculty "Other" or general entries -->
         <EditText
             android:id="@+id/edtFacultyIssueDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Describe your issue..."
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:inputType="textMultiLine"
             android:minLines="3"
@@ -142,6 +153,7 @@
             android:text="Severity Level:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <RadioGroup
@@ -177,7 +189,7 @@
             android:id="@+id/btnSubmitComplaint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit Complaint"
+            android:text="Submit Academic Complaint"
             android:textSize="16sp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@android:color/holo_green_dark"/>

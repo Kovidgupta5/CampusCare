@@ -2,7 +2,6 @@ package com.example.campuscare;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LoginActivity extends AppCompatActivity {
 
     EditText edtUsername, edtPassword;
-    Button btnLogin, btnGoToChangePassword;
+    Button btnLogin;
     DatabaseHelper myDb;
 
     @Override
@@ -23,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        btnGoToChangePassword = findViewById(R.id.btnGoToChangePassword);
 
         btnLogin.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
@@ -38,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if (role != null) {
                 Toast.makeText(LoginActivity.this, "Welcome, " + role + "!", Toast.LENGTH_SHORT).show();
-
                 Intent intent;
                 if (role.equals("Student")) {
                     intent = new Intent(LoginActivity.this, StudentFormActivity.class);
@@ -49,15 +46,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else { // Admin
                     intent = new Intent(LoginActivity.this, AdminActivity.class);
                 }
+                intent.putExtra("USERNAME", username);
+                intent.putExtra("USER_ROLE", role);
                 startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(LoginActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
             }
-        });
-
-        btnGoToChangePassword.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, ChangePasswordActivity.class));
         });
     }
 }

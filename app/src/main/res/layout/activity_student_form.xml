@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Top-Left App Header with Logo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Your Name"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"/>
 
@@ -49,6 +50,7 @@
             android:text="Select Area:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <Spinner
@@ -64,6 +66,7 @@
             android:text="Select Specific Location:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <Spinner
@@ -77,6 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Location Details / Room Number"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"/>
 
@@ -87,6 +92,7 @@
             android:text="Select Category:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <Spinner
@@ -95,12 +101,13 @@
             android:layout_height="48dp"
             android:layout_marginBottom="15dp"/>
 
-        <!-- Custom Issue Description Textbox (for Campus or Other category) -->
         <EditText
             android:id="@+id/edtIssueDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Describe your issue in detail..."
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:inputType="textMultiLine"
             android:minLines="3"
@@ -112,6 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Specify Furniture Type (e.g., Bed, Table, Chair)"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
             android:textSize="16sp"
             android:layout_marginBottom="15dp"
             android:visibility="gone"/>
@@ -122,6 +131,7 @@
             android:text="Severity Level:"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="5dp"/>
 
         <RadioGroup

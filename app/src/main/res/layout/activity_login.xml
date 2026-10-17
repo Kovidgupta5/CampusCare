@@ -45,7 +45,8 @@
         android:layout_height="wrap_content"
         android:hint="Username (student1, faculty1, resolver1, admin1)"
         android:textColor="#000000"
-        android:textColorHint="#757575"
+        android:textColorHint="#555555"
+        android:textSize="16sp"
         android:inputType="text"
         android:padding="12dp"
         android:layout_marginBottom="16dp"
@@ -57,7 +58,8 @@
         android:layout_height="wrap_content"
         android:hint="Password (123)"
         android:textColor="#000000"
-        android:textColorHint="#757575"
+        android:textColorHint="#555555"
+        android:textSize="16sp"
         android:inputType="textPassword"
         android:padding="12dp"
         android:layout_marginBottom="24dp"
@@ -68,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textSize="16sp"
         android:padding="12dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:layout_marginBottom="12dp"/>
@@ -77,6 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Change Password"
+        android:textSize="16sp"
         android:padding="12dp"
         android:backgroundTint="@android:color/darker_gray"/>
 
