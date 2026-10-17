@@ -1,194 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#F5F5F5"
-    android:padding="16dp">
+    android:background="#F5F5F5">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
 
-        <!-- Top Header & Navigation Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/nmims_logo1"
-                android:scaleType="centerInside"
-                android:layout_marginEnd="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/nmims_logo1"
+                    android:scaleType="centerInside"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student Complaint Portal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtStudentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Name"
+                android:textColor="#000000"
+                android:textColorHint="#555555"
+                android:textSize="16sp"
+                android:layout_marginBottom="15dp"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Student Portal"
-                android:textSize="18sp"
+                android:text="Select Area:"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerLocationType"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/tvSubLocLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Specific Location:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerSubLocation"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/edtDynamicLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Location Details / Room Number"
+                android:textColor="#000000"
+                android:textColorHint="#555555"
+                android:textSize="16sp"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/tvCategoryLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Category:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/edtIssueDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Describe your issue in detail..."
+                android:textColor="#000000"
+                android:textColorHint="#555555"
+                android:textSize="16sp"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/edtFurnitureType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Specify Furniture Type (e.g., Bed, Table, Chair)"
+                android:textColor="#000000"
+                android:textColorHint="#555555"
+                android:textSize="16sp"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Severity Level:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroupSeverity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+
+                <RadioButton android:id="@+id/rbLow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low" android:textSize="16sp" android:layout_marginEnd="16dp"/>
+                <RadioButton android:id="@+id/rbMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium" android:textSize="16sp" android:layout_marginEnd="16dp"/>
+                <RadioButton android:id="@+id/rbHigh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High" android:textSize="16sp"/>
+            </RadioGroup>
 
             <Button
-                android:id="@+id/btnNavDashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:text="Dashboard"
-                android:textSize="12sp"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:layout_marginEnd="4dp"/>
-
-            <Button
-                android:id="@+id/btnNavProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:text="Profile"
-                android:textSize="12sp"
+                android:id="@+id/btnSelectImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attach Issue Photo"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@android:color/darker_gray"/>
+
+            <ImageView
+                android:id="@+id/imgComplaintPreview"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="15dp"/>
+
+            <Button
+                android:id="@+id/btnSubmitComplaint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Complaint"
+                android:textSize="16sp"
+                android:backgroundTint="@android:color/holo_green_dark"/>
+
         </LinearLayout>
+    </ScrollView>
 
-        <EditText
-            android:id="@+id/edtStudentName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Your Name"
-            android:textColor="#000000"
-            android:textColorHint="#555555"
-            android:textSize="16sp"
-            android:layout_marginBottom="15dp"/>
+    <!-- Bottom Navigation Bar -->
+    <include layout="@layout/layout_bottom_nav" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Area:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="5dp"/>
-
-        <Spinner
-            android:id="@+id/spinnerLocationType"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="15dp"/>
-
-        <TextView
-            android:id="@+id/tvSubLocLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Specific Location:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="5dp"/>
-
-        <Spinner
-            android:id="@+id/spinnerSubLocation"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="15dp"/>
-
-        <EditText
-            android:id="@+id/edtDynamicLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Location Details / Room Number"
-            android:textColor="#000000"
-            android:textColorHint="#555555"
-            android:textSize="16sp"
-            android:layout_marginBottom="15dp"/>
-
-        <TextView
-            android:id="@+id/tvCategoryLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Category:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="5dp"/>
-
-        <Spinner
-            android:id="@+id/spinnerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="15dp"/>
-
-        <EditText
-            android:id="@+id/edtIssueDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Describe your issue in detail..."
-            android:textColor="#000000"
-            android:textColorHint="#555555"
-            android:textSize="16sp"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:layout_marginBottom="15dp"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/edtFurnitureType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Specify Furniture Type (e.g., Bed, Table, Chair)"
-            android:textColor="#000000"
-            android:textColorHint="#555555"
-            android:textSize="16sp"
-            android:layout_marginBottom="15dp"
-            android:visibility="gone"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Severity Level:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="5dp"/>
-
-        <RadioGroup
-            android:id="@+id/radioGroupSeverity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp">
-
-            <RadioButton android:id="@+id/rbLow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low" android:textSize="16sp" android:layout_marginEnd="16dp"/>
-            <RadioButton android:id="@+id/rbMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium" android:textSize="16sp" android:layout_marginEnd="16dp"/>
-            <RadioButton android:id="@+id/rbHigh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High" android:textSize="16sp"/>
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/btnSelectImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Attach Issue Photo"
-            android:textSize="16sp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@android:color/darker_gray"/>
-
-        <ImageView
-            android:id="@+id/imgComplaintPreview"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="15dp"/>
-
-        <Button
-            android:id="@+id/btnSubmitComplaint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Complaint"
-            android:textSize="16sp"
-            android:backgroundTint="@android:color/holo_green_dark"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
