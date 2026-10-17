@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ROLE = "ROLE";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 6); // Version bumped to 6
+        super(context, DATABASE_NAME, null, 6);
     }
 
     @Override
@@ -48,7 +48,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_PASSWORD + " TEXT, " +
                 COL_ROLE + " TEXT)");
 
-        // Seed Default Users
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('student1', '123', 'Student')");
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('faculty1', '123', 'Faculty')");
         db.execSQL("INSERT INTO " + TABLE_USERS + " (USERNAME, PASSWORD, ROLE) VALUES ('resolver1', '123', 'Resolver')");
@@ -104,7 +103,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result > 0;
     }
 
-    // User Management Methods
     public boolean addUser(String username, String password, String role) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -123,6 +121,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deleteUser(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_USERS, COL_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+        return result > 0;
+    }
+
+    public boolean updatePassword(String username, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_PASSWORD, newPassword);
+        long result = db.update(TABLE_USERS, cv, COL_USERNAME + " = ?", new String[]{username});
         return result > 0;
     }
 

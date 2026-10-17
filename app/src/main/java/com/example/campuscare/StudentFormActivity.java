@@ -1,6 +1,8 @@
 package com.example.campuscare;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class StudentFormActivity extends AppCompatActivity {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int GALLERY_REQUEST_CODE = 1;
+    private static final int CAMERA_REQUEST_CODE = 2;
 
     EditText edtName, edtDynamicLocation, edtFurnitureType, edtIssueDescription;
     Spinner spinnerLocationType, spinnerSubLocation, spinnerCategory;
@@ -154,8 +157,21 @@ public class StudentFormActivity extends AppCompatActivity {
         });
 
         btnSelectImage.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(StudentFormActivity.this);
+            builder.setTitle("Add Issue Photo");
+            builder.setItems(options, (dialog, item) -> {
+                if (options[item].equals("Take Photo")) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
         });
 
         btnSubmit.setOnClickListener(v -> {
@@ -262,10 +278,26 @@ public class StudentFormActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
-            imageUriString = imageUri.toString();
-            imgComplaintPreview.setImageURI(imageUri);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST_CODE && data != null && data.getData() != null) {
+                Uri imageUri = data.getData();
+                imageUriString = imageUri.toString();
+                imgComplaintPreview.setImageURI(imageUri);
+            } else if (requestCode == CAMERA_REQUEST_CODE && data != null && data.getExtras() != null) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                if (photo != null) {
+                    Uri tempUri = getImageUri(photo);
+                    if (tempUri != null) {
+                        imageUriString = tempUri.toString();
+                        imgComplaintPreview.setImageURI(tempUri);
+                    }
+                }
+            }
         }
+    }
+
+    private Uri getImageUri(Bitmap inImage) {
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "CampusCare_Photo", null);
+        return path != null ? Uri.parse(path) : null;
     }
 }
