@@ -113,9 +113,16 @@ public class ResolverActivity extends AppCompatActivity {
             }
 
             if (!imageUriString.isEmpty()) {
-                selectedComplaintForProof.setResolutionImageUri(imageUriString);
-                complaintAdapter.notifyItemChanged(selectedProofPosition);
-                Toast.makeText(this, "Proof photo attached! Now click Mark Done.", Toast.LENGTH_LONG).show();
+                // Instantly update database status to Awaiting Acceptance and save proof image
+                boolean success = myDb.updateByResolver(selectedComplaintForProof.getId(), "Work Completed - Awaiting Acceptance", imageUriString);
+                if (success) {
+                    selectedComplaintForProof.setStatus("Work Completed - Awaiting Acceptance");
+                    selectedComplaintForProof.setResolutionImageUri(imageUriString);
+                    complaintAdapter.notifyItemChanged(selectedProofPosition);
+                    Toast.makeText(this, "Proof uploaded! Task marked as Awaiting Acceptance.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Error updating task status", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -149,14 +156,13 @@ public class ResolverActivity extends AppCompatActivity {
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
-            // Index 1: USERNAME, Index 2: NAME
-            String name = cursor.getString(2);
+            String name = cursor.getString(2); // Index 2: NAME
             String location = cursor.getString(3);
             String category = cursor.getString(4);
             String severity = cursor.getString(5);
             String imageUri = cursor.getString(6);
-            String status = cursor.getString(7); // Correct index for STATUS
-            String resImageUri = cursor.getString(8); // Correct index for RESOLUTION_IMAGE
+            String status = cursor.getString(7); // STATUS
+            String resImageUri = cursor.getString(8); // RESOLUTION_IMAGE
 
             ComplaintModel complaint = new ComplaintModel(id, name, location, category, severity, imageUri, status, resImageUri);
             complaintList.add(complaint);
