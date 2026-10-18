@@ -64,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         loadDataFromDB();
 
-        complaintAdapter = new ComplaintAdapter(complaintList, userRole);
+        complaintAdapter = new ComplaintAdapter(complaintList, userRole, null);
 
         recyclerView.setAdapter(complaintAdapter);
 
@@ -144,7 +144,17 @@ public class DashboardActivity extends AppCompatActivity {
 
         complaintList.clear();
 
-        Cursor cursor = myDb.getAllData();
+        Cursor cursor;
+
+        if (userRole.equals("Student") || userRole.equals("Faculty")) {
+
+            cursor = myDb.getDataByUser(currentUsername);
+
+        } else {
+
+            cursor = myDb.getAllData();
+
+        }
 
         if (cursor.getCount() == 0) {
 
