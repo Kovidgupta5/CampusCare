@@ -1,11 +1,17 @@
 package com.example.campuscare;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +19,18 @@ import java.util.ArrayList;
 
 public class ResolverActivity extends AppCompatActivity {
 
+    private static final int GALLERY_REQUEST_CODE = 101;
+    private static final int CAMERA_REQUEST_CODE = 102;
+
     RecyclerView recyclerView;
     TextView tvEmpty;
     DatabaseHelper myDb;
     ArrayList<ComplaintModel> complaintList;
     ComplaintAdapter complaintAdapter;
     String currentUsername = "resolver1";
+
+    ComplaintModel selectedComplaintForProof;
+    int selectedProofPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +51,13 @@ public class ResolverActivity extends AppCompatActivity {
 
         loadDataFromDB();
 
-        complaintAdapter = new ComplaintAdapter(complaintList, "Resolver");
+        complaintAdapter = new ComplaintAdapter(complaintList, "Resolver", (complaint, position) -> {
+            selectedComplaintForProof = complaint;
+            selectedProofPosition = position;
+            showImagePickerDialog();
+        });
         recyclerView.setAdapter(complaintAdapter);
 
-        // Resolver Bottom Navigation (Tasks & Profile)
         LinearLayout tab2 = findViewById(R.id.navTab2);
         tab2.setVisibility(View.GONE);
 
@@ -59,6 +74,55 @@ public class ResolverActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    private void showImagePickerDialog() {
+        CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Upload Resolution Proof Photo");
+        builder.setItems(options, (dialog, item) -> {
+            if (options[item].equals("Take Photo")) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+            } else if (options[item].equals("Choose from Gallery")) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            } else if (options[item].equals("Cancel")) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && selectedComplaintForProof != null && selectedProofPosition != -1) {
+            String imageUriString = "";
+            if (requestCode == GALLERY_REQUEST_CODE && data != null && data.getData() != null) {
+                Uri imageUri = data.getData();
+                imageUriString = imageUri.toString();
+            } else if (requestCode == CAMERA_REQUEST_CODE && data != null && data.getExtras() != null) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                if (photo != null) {
+                    Uri tempUri = getImageUri(photo);
+                    if (tempUri != null) {
+                        imageUriString = tempUri.toString();
+                    }
+                }
+            }
+
+            if (!imageUriString.isEmpty()) {
+                selectedComplaintForProof.setResolutionImageUri(imageUriString);
+                complaintAdapter.notifyItemChanged(selectedProofPosition);
+                Toast.makeText(this, "Proof photo attached! Now click Mark Done.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private Uri getImageUri(Bitmap inImage) {
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "ResolutionProof", null);
+        return path != null ? Uri.parse(path) : null;
     }
 
     @Override

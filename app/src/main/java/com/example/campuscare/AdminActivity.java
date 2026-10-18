@@ -38,7 +38,7 @@ public class AdminActivity extends AppCompatActivity {
 
         loadDataFromDB();
 
-        complaintAdapter = new ComplaintAdapter(complaintList, "Admin");
+        complaintAdapter = new ComplaintAdapter(complaintList, "Admin", null);
         recyclerView.setAdapter(complaintAdapter);
 
         // Admin Bottom Navigation Setup (Complaints, Users, Profile)
