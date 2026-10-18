@@ -41,7 +41,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         loadDataFromDB();
 
-        // Pass null as the third argument (ProofUploadCallback) since Dashboard is for viewing/closing, not uploading proof
         complaintAdapter = new ComplaintAdapter(complaintList, userRole, null);
         recyclerView.setAdapter(complaintAdapter);
 
@@ -49,9 +48,9 @@ public class DashboardActivity extends AppCompatActivity {
         TextView txtTab1 = findViewById(R.id.txtTab1);
         TextView txtTab2 = findViewById(R.id.txtTab2);
         TextView txtTab3 = findViewById(R.id.txtTab3);
-        txtTab1.setText("File");
-        txtTab2.setText("View");
-        txtTab3.setText("Profile");
+        if (txtTab1 != null) txtTab1.setText("File");
+        if (txtTab2 != null) txtTab2.setText("View");
+        if (txtTab3 != null) txtTab3.setText("Profile");
 
         findViewById(R.id.navTab1).setOnClickListener(v -> {
             Intent intent;
@@ -65,9 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        findViewById(R.id.navTab2).setOnClickListener(v -> {
-            // Already on View/Dashboard
-        });
+        findViewById(R.id.navTab2).setOnClickListener(v -> {});
         findViewById(R.id.navTab3).setOnClickListener(v -> {
             Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("USERNAME", currentUsername);
@@ -90,7 +87,6 @@ public class DashboardActivity extends AppCompatActivity {
         complaintList.clear();
         Cursor cursor;
 
-        // Students and Faculty only see complaints filed under their account username. Admin & Resolvers see all.
         if (userRole.equals("Student") || userRole.equals("Faculty")) {
             cursor = myDb.getDataByUser(currentUsername);
         } else {
@@ -98,25 +94,24 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         if (cursor == null || cursor.getCount() == 0) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            if (tvEmpty != null) tvEmpty.setVisibility(View.VISIBLE);
+            if (recyclerView != null) recyclerView.setVisibility(View.GONE);
             if (cursor != null) cursor.close();
             return;
         }
 
-        tvEmpty.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        if (tvEmpty != null) tvEmpty.setVisibility(View.GONE);
+        if (recyclerView != null) recyclerView.setVisibility(View.VISIBLE);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
-            // Column 1 is USERNAME, Column 2 is NAME
-            String name = cursor.getString(2);
+            String name = cursor.getString(2); // Index 2: NAME
             String location = cursor.getString(3);
             String category = cursor.getString(4);
             String severity = cursor.getString(5);
             String imageUri = cursor.getString(6);
-            String status = cursor.getString(7);
-            String resImageUri = cursor.getString(8);
+            String status = cursor.getString(7); // Correct index for STATUS
+            String resImageUri = cursor.getString(8); // Correct index for RESOLUTION_IMAGE
 
             ComplaintModel complaint = new ComplaintModel(id, name, location, category, severity, imageUri, status, resImageUri);
             complaintList.add(complaint);

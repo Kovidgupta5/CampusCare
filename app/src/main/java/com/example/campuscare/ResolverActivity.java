@@ -59,12 +59,12 @@ public class ResolverActivity extends AppCompatActivity {
         recyclerView.setAdapter(complaintAdapter);
 
         LinearLayout tab2 = findViewById(R.id.navTab2);
-        tab2.setVisibility(View.GONE);
+        if (tab2 != null) tab2.setVisibility(View.GONE);
 
         TextView txtTab1 = findViewById(R.id.txtTab1);
         TextView txtTab3 = findViewById(R.id.txtTab3);
-        txtTab1.setText("Tasks");
-        txtTab3.setText("Profile");
+        if (txtTab1 != null) txtTab1.setText("Tasks");
+        if (txtTab3 != null) txtTab3.setText("Profile");
 
         findViewById(R.id.navTab1).setOnClickListener(v -> {});
         findViewById(R.id.navTab3).setOnClickListener(v -> {
@@ -137,25 +137,26 @@ public class ResolverActivity extends AppCompatActivity {
     private void loadDataFromDB() {
         complaintList.clear();
         Cursor cursor = myDb.getAllData();
-        if (cursor.getCount() == 0) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            cursor.close();
+        if (cursor == null || cursor.getCount() == 0) {
+            if (tvEmpty != null) tvEmpty.setVisibility(View.VISIBLE);
+            if (recyclerView != null) recyclerView.setVisibility(View.GONE);
+            if (cursor != null) cursor.close();
             return;
         }
 
-        tvEmpty.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        if (tvEmpty != null) tvEmpty.setVisibility(View.GONE);
+        if (recyclerView != null) recyclerView.setVisibility(View.VISIBLE);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            String location = cursor.getString(2);
-            String category = cursor.getString(3);
-            String severity = cursor.getString(4);
-            String imageUri = cursor.getString(5);
-            String status = cursor.getString(6);
-            String resImageUri = cursor.getString(7);
+            // Index 1: USERNAME, Index 2: NAME
+            String name = cursor.getString(2);
+            String location = cursor.getString(3);
+            String category = cursor.getString(4);
+            String severity = cursor.getString(5);
+            String imageUri = cursor.getString(6);
+            String status = cursor.getString(7); // Correct index for STATUS
+            String resImageUri = cursor.getString(8); // Correct index for RESOLUTION_IMAGE
 
             ComplaintModel complaint = new ComplaintModel(id, name, location, category, severity, imageUri, status, resImageUri);
             complaintList.add(complaint);
